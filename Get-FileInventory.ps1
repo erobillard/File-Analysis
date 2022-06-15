@@ -64,8 +64,8 @@ function Dir2Xml {
 
 # Paths / folders to inventory. Note: Trailing backslash needed ("\") on the search dir. 
 # Examples: "C:\Users\","D:\"
-$searchDir = "V:\Practise Teams\Microsoft\SharePoint\"
-$outputDir = "E:\dev\MNP\FileInventory\"
+$searchDir = "C:\cloud\"
+$outputDir = "c:\dev\File Inventory\"
 $outputFile = "output.csv"
 $outputPath = $outputDir + $outputFile
 
@@ -83,19 +83,19 @@ Write-Host "Building CSV for analysis..."
 #	   If the object is a file (not a container) 
 #         Get the path, fileext, created, modified, bytes, owner
 # Export the results into a csv output file
-#$searchDir | % { gci $_ -recurse -include $ext -ErrorAction silentlyContinue | where {!$_.PsIsContainer} | select Directory,Extension,CreationTime,LastAccessTime,@{Name="Bytes";expression={$_.Length}},@{Name="Owner";expression={$_.getaccesscontrol().Owner}}} | Export-Csv "$outputPath" -notype
+$searchDir | % { gci $_ -recurse -include $ext -ErrorAction silentlyContinue | where {!$_.PsIsContainer} | select Directory,Extension,CreationTime,LastAccessTime,@{Name="Bytes";expression={$_.Length}},@{Name="Owner";expression={$_.getaccesscontrol().Owner}}} | Export-Csv "$outputPath" -notype
 Write-Host "Generated $outputPath" 
 
 # Retrieve and sort folder names:
-$outputPath = $outputDir + "output.txt"
-Write-Host "Output path: $outputPath"
-Write-Host "Building TXT of folder structure..."
-$searchDir | % { gci $_ -recurse -directory -ErrorAction silentlyContinue | select FullName } | sort FullName | Export-Csv $outputPath -notype
-Write-Host "Generated $outputPath" 
+#$outputPath = $outputDir + $outputFile
+#Write-Host "Output path: $outputPath"
+#Write-Host "Building TXT of folder structure..."
+#$searchDir | % { gci $_ -recurse -directory -ErrorAction silentlyContinue | select FullName } | sort FullName | Export-Csv $outputPath -notype
+#Write-Host "Generated $outputPath" 
 
-$outputPath = $outputDir + "output.xml"
-Write-Host "Output path: $outputPath"
-Write-Host "Building XML of folder structure..."
-Dir2Xml $searchDir $outputPath
-Write-Host "Generated $outputPath" 
+#$outputPath = $outputDir + "output.xml"
+#Write-Host "Output path: $outputPath"
+#Write-Host "Building XML of folder structure..."
+#Dir2Xml $searchDir $outputPath
+#Write-Host "Generated $outputPath" 
 
